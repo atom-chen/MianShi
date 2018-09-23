@@ -1,0 +1,56 @@
+1.概念上可理解成一个类只有一个实例，实现上是要注意以下三点：
+a.单例模式的类只提供私有的构造函数，
+b.类定义中含有一个该类的静态私有对象，
+c.该类提供了一个静态公有函数用于创建或获取它的静态私有对象
+
+2.三种单例模式
+经典的单例模式有三种，懒汉式、饿汉式和登记式。
+懒汉式的特点是延迟加载，比如配置文件，采用懒汉式的方法，顾名思义，懒汉么，很懒的，配置文件的实例直到用到的
+时候才会加载。在第一次调用公有方法的时候，并没有实例，所以我们创建了一个实例，之后再访问的时候，因为已经有一个已经创建好的实例，所以直接返回了。
+饿汉式的特点是一开始就加载了，如果说懒汉式是“时间换空间”，那么饿汉式就是“空间换时间”，因为一开始就创建了实例，所以每次用到的之后直接返回就好了。
+
+3.
+//懒汉式
+public class SingletonA {
+     public static SingletonA instance = null;
+    
+     private SingletonA(){     }
+    
+     public static SingletonA getSingletonA(){         
+          if(instance == null){
+               instance = new SingletonA();
+          }
+          return instance;
+     }    
+}
+ 
+//饿汉式
+public class SingletonB {
+     private static SingletonB instanceB = new SingletonB();
+    
+     private SingletonB(){}
+    
+     public static synchronized SingletonB getInstance(){
+          return instanceB;
+     }
+}
+ 
+//双重锁定
+public class SingletonC {
+     private static SingletonC instance = null;
+     private SingletonC(){};
+    
+     public static SingletonC getInstance(){
+          if(instance == null){
+               synchronized (SingletonC.class) {
+                    if(null == instance){
+                         instance = new SingletonC();
+                    }
+               }
+          }
+          return instance;
+     }
+}
+
+4.总结
+两种方案的构造函数和公用方法都是静态的（static），实例和公用方法又都是私有的（private）。但是饿汉式每次调用的时候不用做创建，直接返回已经创建好的实例。这样虽然节省了时间，但是却占用了空间，实例本身为static的，会一直在内存中带着。懒汉式则是判断，在用的时候才加载，会影响程序的速度。最关键的是，在并发的情况下，懒汉式是不安全的。如果两个线程，我们称它们为线程1和线程2，在同一时间调用getInstance()方法，如果线程1先进入if块，然后线程2进行控制，那么就会有两个实例被创建。

@@ -1,0 +1,16 @@
+//选择排序有点像冒泡，都是把无序区中最小的元素放入到有序区的末端，但是与冒泡不同的是，冒泡是通过相邻元素的比较和交换得到，而选择排序只是记录最小元素的下标，一趟过程，只发生一次交换
+void SelectSort(int R[],int n){
+    int tmp,k;
+    for(int i=0;i<n-1;i++){
+
+        k=i;
+        for(int j=i+1;j<n;j++){
+            if(R[j]<R[k])
+                k=j;
+        }
+        tmp=R[i];
+        R[i]=R[k];
+        R[k]=tmp;
+    }
+    return;
+}

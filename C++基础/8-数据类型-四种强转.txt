@@ -1,0 +1,144 @@
+A.static_cast
+static_cast支持所有的编译器认可的隐式类型转换
+
+static_cast和直接强制类型转换的区别：static_cast在编译时会进行类型检查，而强制转换不会
+
+<1>基本数据类型的转换
+
+    int a = 6;
+
+    double b = static_cast<int>(a);
+
+    double d = 3.14159265;
+
+    int i = static_cast<int>(d);
+
+<2>派生类指针/引用转换为基类的指针/引用
+
+    class base{       ….     }
+
+    class derived : public base{      ….     }
+
+    base *b;
+
+    derived *d = new derived();
+
+    b = static_cast<base *>(d);
+
+<3>基类指针/引用转换为派生类指针/引用（注，此处没有执行类型安全检查，与dynamic_cast的区别）
+
+    class Base {};
+
+    class Derived : public Base {};
+
+    Base *a    = new Base;
+
+    Derived *b = static_cast<Derived *>(a);
+
+
+----------------------------------------------------------------------------------
+B.dynamic_cast 
+dynamic_cast仅用于执行派生类与基类之间的转换
+
+<1>派生类转换为基类
+
+    class base{       ….     }
+
+    class derived : public base{      ….     }
+
+    base *b;
+
+    derived *d = new derived();
+
+    b = dynamic_cast<base *>(d);
+
+<2>基类转换为派生类
+
+    class Base { virtual dummy() {} };
+
+    class Derived : public Base {};   
+
+    Base* b1 = new Derived;
+
+    Base* b2 = new Base;
+
+    Derived* d1 = dynamic_cast<Derived *>(b1);          // succeeds
+
+    Derived* d2 = dynamic_cast<Derived *>(b2);          // fails: returns 'NULL'
+
+    Derived d1 = dynamic_cast<Derived &*>(b1);          // succeeds
+
+    Derived d2 = dynamic_cast<Derived &*>(b2);         // fails: exception thrown
+
+其中，注意Derived* d2 = dynamic_cast<Derived *>(b2)这一行，将这一行与static_cast中的 Derived *b = static_cast<Derived *>(a)这一行比较，可以发现dynamic_cast有执行类型转换安全检查
+
+dynamic_cast三个特点：
+
+<1>其他三种都是编译时完成，dynamic_cast是运行时处理的，要在运行期进行运行时类型检查
+
+比如：Derived* d2 = dynamic_cast<Derived *>(b2);    // fails: returns 'NULL'
+
+<2>基类中要有虚函数，因为运行时类型检查的类型信息在虚函数表中，有虚函数才会有虚函数表
+
+<3>可以实现类的向上和向下转型，前提是必须使用public或protected继承
+
+
+--------------------------------------------------------------------------------------
+C.const_cast
+只能对同种类型的指针或引用去除或添加const属性
+
+不能对变量类型之间使用const_cast
+
+不能用于不同类型之间对转换，只能改变同种类型的const属性
+
+    eg1. const int c=0;
+
+    const int *a=&c;
+
+    int* b=const_cast<int*>(a); ////去除指针中的常量性
+
+    eg2. int s=0;
+
+    int *pi = &s;
+
+    *pi=2;
+
+    const int * pii = const_cast<int *>(pi);//添加指针的常量性;
+
+    *pii=3;  //error
+
+    cout<<*pii<<endl;
+
+
+----------------------------------------------------------------------------------
+D.reinterpret_cast
+ 
+<1>可以实现任意两个类型之间的转换
+
+<2>可以转换一个类型指针为其他类型的指针，也可将指针类型转换为整形，反之亦然
+
+<3>只是一个指针到另一个指针的二进制的拷贝，在类型之间指向的内容不做任何类型的检查和转换
+
+    class A {};
+
+    class B {};
+
+    A * a = new A;
+
+    B * b = reinterpret_cast<B *>(a);
+
+<4>实现函数指针的类型转换
+
+比如：
+
+typedef void (*funcPtr) ();
+
+funcPtr funcPtrArray[10];
+
+int doSomething();
+
+此时，如果我们想将doSomething函数放到funcPtrArray数组中是会报错的，因为两个函数指针类型不一样，
+
+funcPtrArray[0] = &doSomething; //错误，类型不匹配
+
+funcPtrArray[0] = reinterpret_cast<FuncPtr> (&doSomething); //类型转换正确，可通过编译

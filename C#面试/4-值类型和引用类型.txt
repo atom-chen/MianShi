@@ -1,0 +1,40 @@
+1.值（value）类型 
+Unity中的vector3、quaternion是structs，它们是值。
+
+引用（feference）类型 
+Unity中的transform、gameobject是classes它们是引用。
+引用类型是对数据存储位置的引用，引用类型指向的内存区域称为堆。
+
+在决定定义引用类型还是值类型时，关键因素是：如果逻辑上是固定大小不可变的值，就考虑定义成值类型，如果逻辑上是可引用的可变的对象，就定义成引用类型。例如字符串类型，它的大小是根据值的大小而改变的，所以它是引用类型。
+
+哪些是值？哪些是引用？ 
+0. int float bool等是值。 
+1. struct是值，class是引用 
+2. 数组是引用，即使元素是值类型（int[]是引用） 
+3. 枚举（enum）是值 
+4. 委托（delegate）是引用 
+5. 接口（interface）是引用，但可用值类型实现。
+
+引用类型在堆上，值类型在栈上？ 
+引用类型的实例总是在堆上的没有错，方法内部声明的变量和方法参数在栈上。 
+但实例变量的值总是存储在实例本身存储的地方。例如如一个类中有个int变量，它在堆上。
+
+不要创建消耗内存大于16字节的值类型，因为一个引用的大小就是32字节或64字节，如果复制值类型的代价比作为引用复制时高出四倍，就应该把它设计为引用类型了。
+
+2.引用类型的变量包含了两个存储位置：直接和变量关联的存储位置，以及由变量中存储的值引用的存储位置。
+对于直接与变量关联的存储位置和值类型变量关联的存储位置，它们的存储位置没有区别，如果一直变量短时间存在，就在栈的临时存储池中分配。
+
+3.transform是只读的，对a的赋值并没有在内存开辟一个单纯空间存放a，只是将a的值指向transform。
+这就相当于引用类型和值类型的区别。
+解决方案：把transform的属性传到v3类型里。
+
+origin=transform.parent;
+transform.parent=null;
+这句话是把父对象的引用赋值给了origin，然后即使该对象的父对象设置为空，及该子物体没有父对象了，那origin仍然指向原来引用的那个游戏对象。因为transform.parent存储的只是引用的地址。
+而且，对origin的值的修改会影响到所引用的变量，在控制游戏的移动时，不应该直接使用transform.Translate()，因为这个函数需要每一帧都获取该游戏对象的transform组件，所以在代码优化上，应该先定义一个m_transform，提前获取所需要的transform组件。
+
+4.            GameObject obj = GameObject.Find(datas.DataList[index].name);
+            cubeObj.transform.position = obj.transform.position;
+            cubeObj.transform.rotation = obj.transform.rotation;
+            cubeObj.GetComponent<MeshRenderer>().material.color = obj.GetComponent<MeshRenderer>().material.color;
+这里，Obj和通过查找得到的对象其实也是指向同一个位置，那么接下来的赋值都是没有任何意义的。

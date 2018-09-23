@@ -1,0 +1,40 @@
+1.委托与事件的关系
+MSDN中有这么一句：“事件是特殊类型的多路广播委托，仅可从声明它们的类或结构（发行者类）中调用。”如此看来事件与委托的关系应该是继承关系，在继承的过程中在EventHandler类中进行的封装。
+
+2.委托是一个方法的引用指针，它就像C语言里的函数指针，可以将函数作为参数传递。C和C++通常使用函数指针将对方法的引用作为一个实参传给另一个方法，C#的委托提供类似的功能。
+它允许我们将方法作为一个变量并传递方法作为回调函数的一个变量。
+当它被调用，它通知所有的引用方法，他们背后的基本思想和订阅杂志是完全相同的。
+
+3.委托数据类型
+为了能将方法作为参数传递，必须要有一个能够表示方法的数据类型，这个数据类型就是委托。
+委托类型是强类型的。
+
+委托的声明语法：要使用delegate关键字。
+public delegate bool ComparisionHandler(int first,int second);
+如果声明放在类中，那么委托类型就会变成嵌套类型，加入放在类名为DelegateSample的类中，那么委托数据类型就是DelegateSample.ComparisionHandler;
+
+委托的实例化：为了实例化委托，需要一个和委托类型自身的签名相匹配的方法。
+方法名称无关紧要，但是方法的参数和返回值必须兼容委托的签名。
+
+ComparisonHandler委托是引用类型，但不必用New去实例化它，可以用，也可以不用。
+
+4.unity里的委托的使用
+处理玩家死亡时，怪兽停止攻击并播放跳舞动画这个过程
+在玩家控制脚本里面，利用委派声明事件函数原型，并定义事件
+public void delegate PlayerDieHandler
+public static event PlayerDieHandler OnPlayerDie;
+然后在PlayerDie()函数中只调用OnPlayerDie事件。
+
+在怪兽控制的脚本里面编写响应事件的特定函数。
+事件必须在脚本激活时注册，在脚本结束时解除，所以脚本的注册和解除应该在OnEngbled()和OnDisabled()两个函数中完成。
+使用的语法如下所示：
+注册事件：（声明此事件的类名）.（事件名称）+=（this）.（事件发生时调用的函数）。
+解除事件：（声明此事件的类名）.（事件名称）-=（this）.（事件发生时调用的函数）。
+
+5.泛型委托，C#的委托支持泛型
+public class CompareTwo{
+	public float whichIsBig(int a,float b){}
+}
+public delegate float CallDelegate<T,S>(T t,S s);
+实例化：CallDelegate<int,float> delegateBig=new CallDelegate<int,float>(new CompareTo().whichIsBig); 
+float big=delegateBig(10,3.5f);

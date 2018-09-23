@@ -1,0 +1,50 @@
+1.  哈希表(HashTable)简述
+在.NET Framework中，Hashtable是System.Collections命名空间提供的一个容器，用于处理和表现类似keyvalue的键值对，其中key通常可用来快速查找，同时key是区分大小写；value用于存储对应于key的值。Hashtable中keyvalue键值对均为object类型，所以Hashtable可以支持任何类型的keyvalue键值对.
+
+2. 什么情况下使用哈希表
+（1）某些数据会被高频率查询
+（2）数据量大
+（3）查询字段包含字符串类型
+（4）数据类型不唯一
+
+3.哈希表基本操作
+//添加一个keyvalue键值对：
+HashtableObject.Add(key,value);
+
+//移除某个keyvalue键值对：
+HashtableObject.Remove(key);
+
+//移除所有元素：           
+HashtableObject.Clear(); 
+
+// 判断是否包含特定键key：
+HashtableObject.Contains(key);
+
+4.遍历哈希表
+遍历哈希表需要用到DictionaryEntry Object，代码如下：
+for(DictionaryEntry de in ht) //ht为一个Hashtable实例
+{
+   Console.WriteLine(de.Key);  //de.Key对应于keyvalue键值对key
+   Console.WriteLine(de.Value);  //de.Key对应于keyvalue键值对value
+}
+ 
+遍历键
+foreach (int key in hashtable.Keys)
+{
+    Console.WriteLine(key);
+}
+ 
+遍历值
+foreach (string value in hashtable.Values)
+{
+    Console.WriteLine(value);
+}
+
+5.5. 对哈希表进行排序
+对哈希表按key值重新排列的做法：
+ArrayList akeys=new ArrayList(ht.Keys); 
+akeys.Sort(); //按字母顺序进行排序
+foreach(string key in akeys)
+{
+   Console.WriteLine(key + ": " + ht[key]);  //排序后输出
+}

@@ -1,0 +1,8 @@
+1.使用一组隐含的转化操作，用一个基类指针指向派生类，
+
+2.使用virtual function机制
+
+3.使用dynamic_cast
+circle *pc=dynamic_case<circle *>(new shape());
+
+4.如果对一个基类对象使用一个派生类对象进行初始化时，派生类对象就会被切割，(否则可能会出现内存的溢出)，以塞入较小的base type中，deried type将不再存在，多态也不会再呈现。

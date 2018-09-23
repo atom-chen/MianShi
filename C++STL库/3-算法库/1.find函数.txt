@@ -1,0 +1,27 @@
+1.find函数主要实现的是在容器内查找指定的元素，并且这个元素必须是基本数据类型的。
+查找成功返回一个指向指定元素的迭代器，查找失败返回end迭代器。
+end迭代器是当前容器尾元素的最后一个元素。
+在vector中查找：
+   int num_to_find = 3;
+ 
+   vector<int> v1;
+   for( int i = 0; i < 10; i++ ) {
+     v1.push_back(i);
+   }
+ 
+   vector<int>::iterator result;
+   result = find( v1.begin(), v1.end(), num_to_find );
+ 
+   if( result == v1.end() ) {
+     cout << "Did not find any element matching " << num_to_find << endl;
+   }
+ 
+   else {
+     cout << "Found a matching element: " << *result << endl;
+   }
+
+2.查找是否包含子串
+str1;
+substr1;
+int pos=substr1.find(substr1);//pos返回子串在源串的起始位置
+if(substr1.find(substr1)==string::npos)  //npos代表的是空位置，即没有找到子串

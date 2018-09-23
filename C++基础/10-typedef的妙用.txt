@@ -1,0 +1,10 @@
+1.int x,y;
+  x=30;
+  y=30;
+  //x和y既可以用来表示坐标点，也可以表示宽度和高度或其他任何属性
+
+ typedef int WIDTH
+ typedef int HEIGHT
+ WIDTH x;
+ HEIGHT Y;
+ //好处：我们从变量的类型上就可以知道x和y是用来表示宽度和高度

@@ -1,0 +1,16 @@
+1.写入文件
+File.WriteAllLines(string path,string []data); //传入路径和需要写入的内容，path为字符串，data为字符串数组。
+File.WriteAllText(string path,string data);
+读文件
+string[] File.ReadAllLines(string path);
+string File.ReadAllTextstring path);
+删除文件
+if(File.Exist(path))  File.Delete(path);
+
+2.string JsonUtilityToJson(Object obj);
+public static T FromJson(string json);
+将自定义Data类型数据序列化为Json字符串，string s=JsonUtility.ToJson(datas);
+然后就可以用文本操作存入，File.WriteAllTexe(path,s);
+读出数据：datas=JsonUtility.FromJson<Data>(s); 这里需要声明数据类型Data;
+
+

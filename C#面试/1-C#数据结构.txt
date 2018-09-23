@@ -1,0 +1,15 @@
+1.Array 数组 定义时必须确定它的长度
+    a.数组存储在连续的内存上
+    b.数组是强类型数据结构，即只能存储一种类型的对象，
+2.List List是更为灵活的数组，它的长度是可以改变的。 List<T> aList;
+       所属命名空间：System.Collections.Generic
+       List的重要属性：
+         a.下标访问
+         b.aList.count 返回List中当前元素的个数
+       重要方法(增删改查)：
+         a.aList.Add(T); //在aList的末尾添加一个元素
+           aList.Insert(i,T); //将元素T插入在aList的第i位，即元素T的下标为i，原来i位及其以后的元素后移。
+         b.aList.Clear(); //清空所有的元素
+           aList.Remove(T); //从aList中移除指定元素，若有相同，移除第一个
+           aList.RemoveAt(i); //从aList中移除指定下标处的元素。
+         c.aList.IndexOf(T); //查找aList中第一个为T的元素，并返回其下标值，如果不存在，返回-1； 

@@ -1,0 +1,14 @@
+1.封装增加了多少内存布局成本？
+member function虽然声明于类中，但是并不会出现在实例中，所有的non-inline function在内存中只会有一个函数实体。
+C++布局以及存取时间上的额外开销主要是用在virtual上，主要包括两部分：virtual function和virtual base class;
+
+2.三种对象模型
+A.简单对象模型：第一个模型结构上非常简单，它是为了尽量降低C++编译器的设计复杂度而开发出来的，但是增加了空间和执行期的效率。在这个模型中，一个对象其实就是一个slots序列，每个slot指向一个member。Members按照其声明次序，各被指定一个slot。
+在这个简单模型中，memmbers本身并不放在实例中，只是将其地址存储在object中。
+
+B.表格驱动对象模型
+object中，主要存储两个指针，data memeber table和member function table，
+其中data member table直接包含data本身，member function table是指向一系列的slots。
+
+C.C++对象模型：所有的Nonstatic data members被配置于每一个对象内，静态数据被存放在所有的对象外，静态和非静态也被放在所有的类对象外，只有虚函数可以由两个步骤支持：
+每个class产生一堆指向虚函数的指针，放在表格中，即virtual table，然后每个对象被添加一个指向虚表的指针，即vptr；

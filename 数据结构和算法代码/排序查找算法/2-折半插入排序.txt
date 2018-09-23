@@ -1,0 +1,25 @@
+//折半插入与直接插入的不同在于对R[i]的位置处理不同，折半插入是使用折半查找的方式得到R[i]的位置，
+void BinInsertSort(int R[],int n){
+    int i,j,tmp=0,mid,low,high;
+    for(i=1;i<n;i++){
+        if(R[i-1]>R[i]){
+            tmp=R[i];
+            low=0;
+            high=i-1;
+            while(low<=high){
+                mid=(low+high)/2;
+                if(tmp<R[mid]){
+                    high=mid-1;
+                else
+                    low=mid+1;
+                }
+            }
+            //将high+1到i-1之后的数据全部向后移动
+            for(j=i-1;j>=high+1;j--){
+                R[j+1]=R[j];
+            }
+            //将tmp插入到high+1
+            R[high+1]=tmp;
+        }
+    }
+}

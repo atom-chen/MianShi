@@ -1,0 +1,10 @@
+1.FCFS--First Come First Service 先来先服务
+
+2.SJF--Shortest Job First 最短作业优先
+
+3.HRRN--Highest Response Ratio Next 最高响应比优先法
+
+4.RR--Round Ratio 时间片轮转法
+用于分时系统中的进程调度。每次调度时，总是选择就绪队列的队首进程，让其在CPU上运行一个系统预先设置好的时间片。一个时间片内没有完成运行的进程，返回到绪队列末尾重新排队，等待下一次调度。
+
+5.MFQ-多级反馈队列(Multilevel Feedback Queue) 

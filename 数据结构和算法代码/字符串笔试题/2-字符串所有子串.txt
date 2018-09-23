@@ -1,0 +1,9 @@
+1.给定一个字符串，求出所有子串，即求出一个集合的所有子集
+对字符串数组进行遍历
+string a[]=new string[];
+for(int i=0;i<str.length();i++){
+    for(int j=i+1;j<str.length();j++)
+    {
+	
+    }
+}

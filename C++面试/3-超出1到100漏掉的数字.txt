@@ -1,0 +1,22 @@
+1.#include <iostream>
+
+using namespace std;
+
+int main()
+{
+
+    bool flag=true;
+    //这里要定义一个整型变量，接收输入的必须是整型，如果是char型，会出错
+    long long c;
+    int i=1;
+
+    //flag要放在前面，因为要先判断循环标识位，再进行输入
+    while (flag&&(cin >> c))
+    {
+
+
+    }
+    cout<<i;
+
+    return 0;
+}

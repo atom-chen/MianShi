@@ -1,0 +1,2 @@
+1.string
+substr1=str.substr(startPos,length);  //参数是起始的位置和截取的长度

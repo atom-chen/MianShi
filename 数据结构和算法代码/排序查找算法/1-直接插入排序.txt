@@ -1,0 +1,39 @@
+#include <iostream>
+
+using namespace std;
+void InsertSort(int R[],int n);
+
+int main()
+{
+    int a[5]={4,5,3,1,2};
+    int n=5;
+    InsertSort(a,n);
+    for(int i=0;i<n;i++){
+        cout<<a[i]<<endl;
+    }
+    return 0;
+}
+
+void InsertSort(int R[],int n){
+    int i,j;
+    int tmp=0;
+    //一次将每个记录插入到一个有序的队列中，假设记录存放在R[0..n-1]之中，R[0..i-1]是已排好序的记录；R[i..n-1]是未排序的记录
+    //直接插入排序是将R[i]插入到R[0..i-1]之中，从而使R[0..i]成为有序的，这个过程就是完成排序中的一趟
+
+    //for循环解读：第一个记录是有序的，所以循环从第二个记录开始，循环是要把R[1..n-1]到最后一个记录结束。
+    for(i=1;i<n;i++){
+        //比较R[i-1]和R[i]大小，如果R[i]大，那么R[0..i]就是有序的，否则，要将R[i]插入到合适的位置
+        if(R[i-1]>R[i]){
+            tmp=R[i];
+            //j的值的意义是要从有序区的最后一个记录开始与tmp比较大小
+            j=i-1;
+            //循环条件，当R[j]大于tmp时继续循环，知道找到一个小于tmp的，那么tmp就应该放在该R[j]后面
+            while(j>=0 && R[j]>tmp){
+                //每次循环后，将R[j]向后移一位，
+                R[j+1]=R[j];
+                j--;
+            }
+            R[j+1]=tmp;
+        }
+    }
+}

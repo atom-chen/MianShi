@@ -1,0 +1,13 @@
+//顺序查找
+int SqSearch(int R[],int n,int k){
+    int i=0;
+    while(i<n&&R[i]!=k){
+        i++;
+    }
+    if(i>n)
+        return 0;
+    else
+        //记住是i+1,不是i
+        return i+1;
+
+}
